@@ -1,0 +1,1 @@
+<button type="primary" bindtap="startSearch">开始搜索</button>
