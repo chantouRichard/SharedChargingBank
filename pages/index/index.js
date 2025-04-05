@@ -129,8 +129,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    longitude: 120.14700833494362,
-    latitude: 30.26064905500077,
+    longitude: 114.31,  // 武汉市中心经度
+    latitude: 30.59,    // 武汉市中心纬度
     markers: [],
     chargers: [],
     brandPaths: [],
@@ -158,22 +158,51 @@ Page({
       borrowRatio: 0,
       returnRatio: 0,
       reputation: 0
-    }
+    },
+    // 悬浮搜索按钮位置
+    searchBtnX: 300,
+    searchBtnY: 500,
+    // 搜索面板显示状态
+    showSearchPanel: false,
+    // 搜索关键词
+    searchKeyword: '',
+    // 搜索结果
+    searchResults: [],
+    // 位置历史记录
+    locationHistory: [],
+    // 选中的位置信息
+    selectedLocation: null,
+    // 地点操作面板显示状态
+    showLocationAction: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 初始化地图位置（示例为杭州西湖位置）
+    // 初始化地图位置（武汉中心位置）
     this.setData({
-      longitude: 120.13026,  // 确保设置了默认经度
-      latitude: 30.28907,    // 确保设置了默认纬度
+      longitude: 114.31,  // 武汉市中心经度
+      latitude: 30.59,    // 武汉市中心纬度
       markers: []
     });
     
     // 立即获取用户当前位置作为起点
     this.getCurrentLocation();
+    
+    // 加载搜索按钮位置
+    const savedBtnX = wx.getStorageSync('searchBtnX');
+    const savedBtnY = wx.getStorageSync('searchBtnY');
+    
+    if (savedBtnX !== '' && savedBtnY !== '') {
+      this.setData({
+        searchBtnX: savedBtnX,
+        searchBtnY: savedBtnY
+      });
+    }
+    
+    // 加载位置历史记录
+    this.loadLocationHistory();
   },
 
   // 获取当前位置
@@ -181,11 +210,11 @@ Page({
     const that = this;
     
     if (this.data.useSimulatedLocation) {
-      // 使用模拟位置
+      // 使用模拟位置（改为武汉黄鹤楼附近）
       const simulatedLocation = {
-        latitude: 30.26064905500077,
-        longitude: 120.14700833494362,
-        name: '西湖风景区'
+        latitude: 30.5433,
+        longitude: 114.3022,
+        name: '黄鹤楼'
       };
       
       that.setData({
@@ -240,86 +269,60 @@ Page({
     }
   },
 
-  // 开始搜索目的地
-  startSearch: function() {
-    const that = this;
-    
-    if (this.data.useSimulatedSearch) {
-      // 使用模拟目的地
-      const simulatedDestination = {
-        latitude: 30.254560602316,
-        longitude: 120.14637312004,
-        name: '西湖音乐喷泉'
-      };
-      
-      that.setData({
-        destinationLocation: {
-          latitude: simulatedDestination.latitude,
-          longitude: simulatedDestination.longitude
-        },
-        destinationName: simulatedDestination.name
-      });
-      
-      wx.showToast({
-        title: '已设置模拟目的地',
-        icon: 'success'
-      });
-      
-      // 检查是否可以生成充电桩
-      if (that.data.currentLocation && that.data.destinationLocation) {
-        that.generateChargerStations();
-      }
-    } else {
-      // 使用真实搜索
-      wx.showToast({
-        title: '请选择目的地',
-        icon: 'none',
-        duration: 1500
-      });
-      
-      wx.chooseLocation({
-        success: function(res) {
-          that.setData({
-            destinationLocation: {
-              latitude: res.latitude,
-              longitude: res.longitude
-            },
-            destinationName: res.name || res.address
-          });
-          
-          wx.showToast({
-            title: '已设置目的地',
-            icon: 'success'
-          });
-          
-          // 检查是否可以生成充电桩
-          if (that.data.currentLocation && that.data.destinationLocation) {
-            that.generateChargerStations();
-          }
-        },
-        fail: function() {
-          wx.showToast({
-            title: '选择位置失败',
-            icon: 'none'
-          });
-        }
-      });
-    }
-  },
-
   // 获取位置名称
   getLocationName: function(latitude, longitude, type) {
-    // 实际应用中应调用逆地址解析API
-    // 这里为了简化，使用模拟数据
-    if (type === 'current') {
-      this.setData({
-        currentLocationName: '当前位置'
-      });
-    } else {
-      this.setData({
-        destinationName: '目的地'
-      });
-    }
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/',
+      data: {
+        location: latitude + ',' + longitude,
+        key: 'TJ4BZ-M2GKQ-ORK5A-4BRHY-PRDSF-FSBP6',
+        get_poi: 0
+      },
+      success: (res) => {
+        if (res.data.status === 0) {
+          const address = res.data.result.address;
+          const name = res.data.result.formatted_addresses?.recommend || address;
+          
+          if (type === 'current') {
+            this.setData({
+              currentLocationName: name
+            });
+          } else {
+            this.setData({
+              destinationName: name
+            });
+          }
+        } else {
+          if (type === 'current') {
+            this.setData({
+              currentLocationName: '当前位置'
+            });
+          } else {
+            this.setData({
+              destinationName: '目的地'
+            });
+          }
+        }
+      },
+      fail: () => {
+        // 获取失败时使用默认值
+        if (type === 'current') {
+          this.setData({
+            currentLocationName: '当前位置'
+          });
+        } else {
+          this.setData({
+            destinationName: '目的地'
+          });
+        }
+      }
+    });
+  },
+
+  // 开始搜索目的地
+  startSearch: function() {
+    // 直接打开搜索面板
+    this.toggleSearchPanel();
   },
 
   // 生成充电桩站点
@@ -455,7 +458,7 @@ Page({
       id: 'start',
       latitude: this.data.currentLocation.latitude,
       longitude: this.data.currentLocation.longitude,
-      iconPath: '/image/location.png',
+      iconPath: '/image/start_point.png',
       width: 30,
       height: 30,
       callout: {
@@ -474,7 +477,7 @@ Page({
       id: 'end',
       latitude: this.data.destinationLocation.latitude,
       longitude: this.data.destinationLocation.longitude,
-      iconPath: '/image/location.png',
+      iconPath: '/image/end_point.png',
       width: 30,
       height: 30,
       callout: {
@@ -493,7 +496,7 @@ Page({
       id: brandPath.borrowStation.id,
       latitude: brandPath.borrowStation.latitude,
       longitude: brandPath.borrowStation.longitude,
-      iconPath: '/image/location.png',
+      iconPath: '/image/charge.png',
       width: 40,
       height: 40,
       callout: {
@@ -512,7 +515,7 @@ Page({
       id: brandPath.returnStation.id,
       latitude: brandPath.returnStation.latitude,
       longitude: brandPath.returnStation.longitude,
-      iconPath: '/image/location.png',
+      iconPath: '/image/charge.png',
       width: 40,
       height: 40,
       callout: {
@@ -666,7 +669,7 @@ Page({
         id: 'start',
         latitude: this.data.currentLocation.latitude,
         longitude: this.data.currentLocation.longitude,
-        iconPath: '/image/location.png',
+        iconPath: '/image/start_point.png',
         width: 40,
         height: 40,
         callout: {
@@ -687,7 +690,7 @@ Page({
         id: 'end',
         latitude: this.data.destinationLocation.latitude,
         longitude: this.data.destinationLocation.longitude,
-        iconPath: '/image/location.png',
+        iconPath: '/image/end_point.png',
         width: 40,
         height: 40,
         callout: {
@@ -762,13 +765,13 @@ Page({
   // 添加页面跳转方法
   navigateToSearch: function() {
     wx.navigateTo({
-      url: '/pages/search/search'
+      url: '/pages/search/index'
     });
   },
 
   navigateToMark: function() {
     wx.navigateTo({
-      url: '/pages/mark/mark'
+      url: '/pages/user/index'
     });
   },
 
@@ -827,7 +830,7 @@ Page({
         id: 'start',
         latitude: this.data.currentLocation.latitude,
         longitude: this.data.currentLocation.longitude,
-        iconPath: '/image/location.png',
+        iconPath: '/image/start_point.png',
         width: 30,
         height: 30,
         callout: {
@@ -847,7 +850,7 @@ Page({
         id: 'end',
         latitude: this.data.destinationLocation.latitude,
         longitude: this.data.destinationLocation.longitude,
-        iconPath: '/image/location.png',
+        iconPath: '/image/end_point.png',
         width: 30,
         height: 30,
         callout: {
@@ -867,7 +870,7 @@ Page({
       id: brandPath.borrowStation.id,
       latitude: brandPath.borrowStation.latitude,
       longitude: brandPath.borrowStation.longitude,
-      iconPath: '/image/location.png',
+      iconPath: '/image/charge.png',
       width: 40,
       height: 40,
       callout: {
@@ -886,7 +889,7 @@ Page({
       id: brandPath.returnStation.id,
       latitude: brandPath.returnStation.latitude,
       longitude: brandPath.returnStation.longitude,
-      iconPath: '/image/location.png',
+      iconPath: '/image/charge.png',
       width: 40,
       height: 40,
       callout: {
@@ -937,4 +940,315 @@ Page({
       'currentBrandDetail.show': false
     });
   },
+
+  // 切换搜索面板显示状态
+  toggleSearchPanel: function() {
+    this.setData({
+      showSearchPanel: !this.data.showSearchPanel,
+      searchKeyword: '',
+      searchResults: []
+    });
+    
+    // 显示搜索面板时加载历史记录
+    if (this.data.showSearchPanel) {
+      this.loadLocationHistory();
+    }
+  },
+
+  // 加载位置历史记录
+  loadLocationHistory: function() {
+    const history = wx.getStorageSync('locationHistory') || [];
+    this.setData({
+      locationHistory: history
+    });
+  },
+
+  // 搜索输入事件
+  onSearchInput: function(e) {
+    this.setData({
+      searchKeyword: e.detail.value
+    });
+  },
+
+  // 监听搜索按钮位置变化
+  onSearchBtnChange: function(e) {
+    // 防抖处理，不必每次移动都保存
+    if (this.savePositionTimer) {
+      clearTimeout(this.savePositionTimer);
+    }
+    
+    this.savePositionTimer = setTimeout(() => {
+      const x = e.detail.x;
+      const y = e.detail.y;
+      
+      wx.setStorageSync('searchBtnX', x);
+      wx.setStorageSync('searchBtnY', y);
+    }, 300);
+  },
+
+  // 执行地点搜索
+  searchLocation: function() {
+    const keyword = this.data.searchKeyword;
+    if (!keyword.trim()) {
+      wx.showToast({
+        title: '请输入搜索关键词',
+        icon: 'none'
+      });
+      return;
+    }
+    
+    wx.showLoading({
+      title: '搜索中...'
+    });
+    
+    console.log('开始搜索地点:', keyword);
+    
+    // 调用腾讯位置服务POI搜索API
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/place/v1/search',
+      data: {
+        keyword: keyword,
+        boundary: 'region(武汉,0)', // 限定在武汉市范围内搜索
+        key: 'TJ4BZ-M2GKQ-ORK5A-4BRHY-PRDSF-FSBP6', // 使用提供的密钥
+        page_size: 20, // 返回结果数量
+        page_index: 1, // 页码
+        output: 'json', // 返回格式
+        auto_extend: 1 // 自动扩大搜索范围
+      },
+      success: (res) => {
+        wx.hideLoading();
+        console.log('API返回数据:', res.data);
+        
+        if (res.data && res.data.status === 0 && res.data.data && res.data.data.length > 0) {
+          // 处理返回结果
+          const poiList = res.data.data;
+          const results = poiList.map((item, index) => {
+            return {
+              id: index.toString(),
+              name: item.title,
+              address: item.address || item.title,
+              latitude: item.location.lat,
+              longitude: item.location.lng
+            };
+          });
+          
+          this.setData({
+            searchResults: results
+          });
+          
+          console.log('成功获取搜索结果:', results.length, '条数据');
+        } else {
+          console.error('搜索返回结果异常:', res.data);
+          this.setData({
+            searchResults: []
+          });
+          
+          // 处理各种错误状态码
+          if (res.data && res.data.status !== 0) {
+            let errorMsg = '未找到相关地点';
+            
+            // 根据腾讯地图API状态码显示不同错误信息
+            switch(res.data.status) {
+              case 310: errorMsg = 'API密钥无效'; break;
+              case 311: errorMsg = '请求超过配额'; break;
+              case 306: errorMsg = '请求参数不符合规则'; break;
+              default: errorMsg = `搜索失败(${res.data.status})`;
+            }
+            
+            wx.showToast({
+              title: errorMsg,
+              icon: 'none'
+            });
+          } else {
+            wx.showToast({
+              title: '未找到相关地点',
+              icon: 'none'
+            });
+          }
+        }
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        console.error('搜索请求失败', err);
+        wx.showToast({
+          title: '网络请求失败',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
+  // 选择搜索结果
+  selectLocation: function(e) {
+    const location = e.currentTarget.dataset.location;
+    
+    // 保存到历史记录
+    this.saveLocationToHistory(location);
+    
+    // 显示操作菜单
+    this.setData({
+      selectedLocation: location,
+      showLocationAction: true,
+      showSearchPanel: false // 隐藏搜索面板
+    });
+  },
+
+  // 保存位置到历史记录
+  saveLocationToHistory: function(location) {
+    let history = wx.getStorageSync('locationHistory') || [];
+    
+    // 检查是否已存在相同位置
+    const index = history.findIndex(item => 
+      item.id === location.id || 
+      (item.latitude === location.latitude && item.longitude === location.longitude)
+    );
+    
+    if (index !== -1) {
+      // 如果存在，移除旧记录
+      history.splice(index, 1);
+    }
+    
+    // 限制历史记录数量
+    if (history.length >= 10) {
+      history.pop(); // 移除最旧的记录
+    }
+    
+    // 添加新记录到开头
+    history.unshift(location);
+    
+    // 保存到本地存储
+    wx.setStorageSync('locationHistory', history);
+    
+    // 更新显示
+    this.setData({
+      locationHistory: history
+    });
+  },
+
+  // 设为起点
+  setAsStart: function() {
+    const location = this.data.selectedLocation;
+    
+    this.setData({
+      currentLocation: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      },
+      currentLocationName: location.name,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      showLocationAction: false
+    });
+    
+    // 更新地图标记
+    this.updateLocationMarkers();
+    
+    wx.showToast({
+      title: '已设为起点',
+      icon: 'success'
+    });
+    
+    // 如果起点和终点都已设置，自动生成充电桩
+    if (this.data.currentLocation && this.data.destinationLocation) {
+      this.generateChargerStations();
+    }
+  },
+
+  // 设为终点
+  setAsEnd: function() {
+    const location = this.data.selectedLocation;
+    
+    this.setData({
+      destinationLocation: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      },
+      destinationName: location.name,
+      showLocationAction: false
+    });
+    
+    // 更新地图标记
+    this.updateLocationMarkers();
+    
+    wx.showToast({
+      title: '已设为终点',
+      icon: 'success'
+    });
+    
+    // 如果起点和终点都已设置，自动生成充电桩
+    if (this.data.currentLocation && this.data.destinationLocation) {
+      this.generateChargerStations();
+    }
+  },
+
+  // 取消位置选择
+  cancelLocationSelection: function() {
+    this.setData({
+      showLocationAction: false
+    });
+  },
+
+  // 防止事件冒泡
+  preventBubble: function() {
+    return;
+  },
+  
+  // 快速搜索热门地点
+  quickSearchPlace: function(e) {
+    const placeName = e.currentTarget.dataset.name;
+    
+    this.setData({
+      searchKeyword: placeName
+    });
+    
+    // 自动执行搜索
+    this.searchLocation();
+  },
+
+  // 清除位置历史记录
+  clearLocationHistory: function() {
+    wx.showModal({
+      title: '清除历史记录',
+      content: '确定要清除所有搜索历史记录吗？',
+      success: (res) => {
+        if (res.confirm) {
+          // 清除本地存储中的历史记录
+          wx.removeStorageSync('locationHistory');
+          
+          // 更新显示
+          this.setData({
+            locationHistory: []
+          });
+          
+          wx.showToast({
+            title: '历史记录已清除',
+            icon: 'success'
+          });
+        }
+      }
+    });
+  },
+  
+  // 删除单条历史记录
+  deleteLocationHistory: function(e) {
+    const index = e.currentTarget.dataset.index;
+    let history = this.data.locationHistory;
+    
+    // 从数组中移除该记录
+    history.splice(index, 1);
+    
+    // 保存到本地存储
+    wx.setStorageSync('locationHistory', history);
+    
+    // 更新显示
+    this.setData({
+      locationHistory: history
+    });
+    
+    wx.showToast({
+      title: '已删除该记录',
+      icon: 'success',
+      duration: 1000
+    });
+  }
 })

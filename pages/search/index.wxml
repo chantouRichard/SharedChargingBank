@@ -1,0 +1,25 @@
+<view class="scan-container">
+  <view class="header">
+    <view class="title">扫码功能</view>
+  </view>
+
+  <view class="scan-content">
+    <image class="scan-image" src="/image/scan.png" mode="aspectFit"></image>
+    
+    <view class="instructions">
+      <view class="instruction-title">使用说明</view>
+      <view class="instruction-item">1. 点击下方扫码按钮</view>
+      <view class="instruction-item">2. 对准充电宝或充电宝柜的二维码</view>
+      <view class="instruction-item">3. 扫码成功后系统将自动处理</view>
+    </view>
+
+    <button class="scan-button" bindtap="startScan">开始扫码</button>
+    
+    <view class="tip">扫描充电宝二维码，快速借用充电宝</view>
+  </view>
+
+  <view class="result-area" wx:if="{{showResult}}">
+    <view class="result-title">扫码结果</view>
+    <view class="result-content">{{scanResult}}</view>
+  </view>
+</view> 

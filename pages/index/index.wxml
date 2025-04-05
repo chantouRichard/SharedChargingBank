@@ -159,4 +159,98 @@
       </view>
     </view>
   </view>
+  
+  <!-- 悬浮可拖动搜索按钮 -->
+  <movable-area class="movable-area">
+    <movable-view class="floating-search-btn" direction="all" x="{{searchBtnX}}" y="{{searchBtnY}}" bindtap="toggleSearchPanel" bindchange="onSearchBtnChange">
+      <image class="search-icon" src="/image/search.png" mode="aspectFit"></image>
+    </movable-view>
+  </movable-area>
+
+  <!-- 搜索面板 (初始隐藏) -->
+  <view class="search-panel {{showSearchPanel ? 'show' : ''}}">
+    <view class="search-panel-header">
+      <view class="panel-title">搜索地点</view>
+      <view class="close-btn" bindtap="toggleSearchPanel">×</view>
+      <view class="search-input-container">
+        <view class="search-icon-wrap">
+          <image class="search-input-icon" src="/image/search.png" mode="aspectFit"></image>
+        </view>
+        <input class="search-input" placeholder="搜索武汉地标、景点、街道" bindinput="onSearchInput" value="{{searchKeyword}}" focus="{{showSearchPanel}}" confirm-type="search" bindconfirm="searchLocation"/>
+        <view class="search-btn" bindtap="searchLocation">搜索</view>
+      </view>
+    </view>
+    
+    <!-- 搜索结果列表 -->
+    <scroll-view class="search-results" scroll-y="true" wx:if="{{searchResults.length > 0}}">
+      <view class="result-title">搜索结果</view>
+      <view class="result-item" wx:for="{{searchResults}}" wx:key="id" bindtap="selectLocation" data-location="{{item}}">
+        <view class="result-icon">
+          <image src="/image/location.png" mode="aspectFit"></image>
+        </view>
+        <view class="result-info">
+          <view class="result-name">{{item.name}}</view>
+          <view class="result-address">{{item.address}}</view>
+        </view>
+      </view>
+    </scroll-view>
+    
+    <!-- 历史记录 -->
+    <scroll-view class="search-history" scroll-y="true" wx:if="{{searchResults.length === 0 && locationHistory.length > 0}}">
+      <view class="history-header">
+        <view class="history-title">历史记录</view>
+        <view class="history-clear" bindtap="clearLocationHistory">清除全部</view>
+      </view>
+      <view class="result-item" wx:for="{{locationHistory}}" wx:key="id">
+        <view class="result-content" bindtap="selectLocation" data-location="{{item}}">
+          <view class="result-icon history">
+            <image src="/image/location.png" mode="aspectFit"></image>
+          </view>
+          <view class="result-info">
+            <view class="result-name">{{item.name}}</view>
+            <view class="result-address">{{item.address}}</view>
+          </view>
+        </view>
+        <view class="result-delete" catchtap="deleteLocationHistory" data-index="{{index}}">
+          <text>×</text>
+        </view>
+      </view>
+    </scroll-view>
+    
+    <!-- 空状态提示 -->
+    <view class="empty-state" wx:if="{{searchResults.length === 0 && locationHistory.length === 0}}">
+      <image class="empty-icon" src="/image/location.png" mode="aspectFit"></image>
+      <view class="empty-text">请输入地点名称进行搜索</view>
+    </view>
+  </view>
+
+  <!-- 地点选择操作菜单 (初始隐藏) -->
+  <view class="location-action-mask" wx:if="{{showLocationAction}}" bindtap="cancelLocationSelection">
+    <view class="location-action-panel" catchtap="preventBubble">
+      <view class="action-panel-header">
+        <view class="location-icon">
+          <image src="/image/location.png" mode="aspectFit"></image>
+        </view>
+        <view class="selected-location">
+          <view class="location-name">{{selectedLocation.name}}</view>
+          <view class="location-address">{{selectedLocation.address}}</view>
+        </view>
+      </view>
+      <view class="action-btns">
+        <button class="action-btn start" bindtap="setAsStart">
+          <view class="btn-inner">
+            <text class="btn-icon">起</text>
+            <text class="btn-text">设为起点</text>
+          </view>
+        </button>
+        <button class="action-btn end" bindtap="setAsEnd">
+          <view class="btn-inner">
+            <text class="btn-icon">终</text>
+            <text class="btn-text">设为终点</text>
+          </view>
+        </button>
+        <button class="action-btn cancel" bindtap="cancelLocationSelection">取消</button>
+      </view>
+    </view>
+  </view>
 </view>

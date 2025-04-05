@@ -1,0 +1,19 @@
+<!--pages/user/index.wxml-->
+<view class="guide-container">
+  <view class="guide-header">
+    <view class="header-title">用户使用指南</view>
+    <view class="header-desc">在使用共享充电宝前，请仔细阅读以下内容</view>
+  </view>
+  
+  <view class="guide-content">
+    <view class="guide-item" wx:for="{{guideItems}}" wx:key="title">
+      <view class="item-title">{{item.title}}</view>
+      <view class="item-content">{{item.content}}</view>
+    </view>
+  </view>
+  
+  <view class="guide-footer">
+    <image class="footer-image" src="/image/user_guide.png" mode="aspectFit"></image>
+    <view class="footer-text">安全用电，文明使用</view>
+  </view>
+</view>

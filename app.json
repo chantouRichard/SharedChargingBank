@@ -1,9 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/mark/mark",
-    "pages/search/search"
+    "pages/user/index",
+    "pages/search/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,20 +22,20 @@
     "list": [{
       "pagePath": "pages/index/index",
       "text": "首页",
-      "iconPath": "image/location.png",
-      "selectedIconPath": "image/location.png"
+      "iconPath": "image/charge.png",
+      "selectedIconPath": "image/charge.png"
     },
     {
-      "pagePath": "pages/search/search",
-      "text": "搜索",
-      "iconPath": "image/location.png",
-      "selectedIconPath": "image/location.png"
+      "pagePath": "pages/search/index",
+      "text": "扫码",
+      "iconPath": "image/scan.png",
+      "selectedIconPath": "image/scan.png"
     },
     {
-      "pagePath": "pages/mark/mark",
-      "text": "标注",
-      "iconPath": "image/location.png",
-      "selectedIconPath": "image/location.png"
+      "pagePath": "pages/user/index",
+      "text": "用户须知",
+      "iconPath": "image/user_guide.png",
+      "selectedIconPath": "image/user_guide.png"
     }]
   }
 }
