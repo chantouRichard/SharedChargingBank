@@ -1,0 +1,400 @@
+/* 页面容器 */
+.login-container {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: #f5f5f5;
+  position: relative;
+}
+
+/* 登录卡片 */
+.login-card {
+  position: relative;
+  z-index: 2;
+  margin: 0rpx auto 10rpx;
+  width: 80%;
+  background: linear-gradient(to right, #ffcc00, #ff9500);
+  border-radius: 10rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.login-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #fff;
+  border-radius: 60rpx;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-avatar image {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.login-info {
+  flex: 1;
+  margin-left: 20rpx;
+  color: #fff;
+}
+
+.login-status {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.login-tip {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-top: 10rpx;
+}
+
+.login-button {
+  background-color: #fff;
+  color: #ff9500;
+  font-size: 28rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 40rpx;
+}
+
+/* 面板样式 */
+.panel {
+  width: 85%;
+  margin: 20rpx auto;
+  background-color: #fff;
+  border-radius: 8rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 2;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.yellow-bar {
+  width: 8rpx;
+  height: 36rpx;
+  background-color: #ffcc00;
+  margin-right: 10rpx;
+}
+
+.panel-header text {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: row;
+  padding: 20rpx 10rpx;
+}
+
+.option-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.option-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.option-text {
+  font-size: 26rpx;
+  color: #333;
+  text-align: center;
+}
+
+.badge {
+  position: absolute;
+  top: -10rpx;
+  right: 50rpx;
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 20rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  border-radius: 16rpx;
+  text-align: center;
+  line-height: 32rpx;
+}
+
+/* 空内容样式 */
+.empty-content {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.empty-icon {
+  width: 80rpx;
+  height: 80rpx;
+  opacity: 0.3;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 设置内容 */
+.settings-content {
+  min-height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 简单面板 - 匹配微信原生风格 */
+.simple-panel {
+  margin: 20rpx 0;
+  background-color: #ffffff;
+  overflow: hidden;
+  position: relative;
+}
+
+.simple-panel-title {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
+}
+
+.title-bar {
+  width: 6rpx;
+  height: 30rpx;
+  background-color: #ffcc00;
+  margin-right: 16rpx;
+}
+
+.simple-panel-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10rpx 0;
+}
+
+/* 简单选项项目 */
+.simple-option-item {
+  width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 0;
+  position: relative;
+}
+
+.simple-icon-wrapper {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 12rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.simple-icon {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.simple-badge {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  background-color: #ff4d4f;
+  color: #ffffff;
+  font-size: 20rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  border-radius: 16rpx;
+  text-align: center;
+  line-height: 32rpx;
+}
+
+.simple-option-title {
+  font-size: 26rpx;
+  color: #333;
+}
+
+/* 订单记录区域 */
+.order-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.order-list {
+  padding: 0 24rpx;
+}
+
+.order-item {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-time {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.order-location,
+.order-duration,
+.order-amount {
+  font-size: 26rpx;
+  color: #666;
+  margin-top: 4rpx;
+}
+
+.order-status {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  padding: 4rpx 16rpx;
+  color: #52c41a;
+  align-self: flex-end;
+}
+
+.order-status.completed {
+  color: #52c41a;
+}
+
+.order-status.pending {
+  color: #faad14;
+}
+
+/* 版本信息 */
+.app-version {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 40rpx;
+}
+
+/* 会员信息内容 */
+.member-content {
+  display: flex;
+  padding: 20rpx;
+  position: relative;
+}
+
+.member-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10rpx;
+}
+
+.member-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 6rpx;
+}
+
+.member-value {
+  font-size: 36rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.member-tips {
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+  padding: 0 0 20rpx;
+}
+
+/* 订单列表样式 */
+.order-list {
+  padding: 0 20rpx;
+}
+
+.order-item {
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-time {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.order-info {
+  position: relative;
+}
+
+.order-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.order-location, .order-duration, .order-amount {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 5rpx;
+}
+
+.order-status {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 26rpx;
+  color: #52c41a;
+}
+
+.order-status.pending {
+  color: #faad14;
+}
+
+/* 版本信息 */
+.app-version {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  padding: 30rpx 0;
+} 

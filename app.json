@@ -2,9 +2,10 @@
   "pages": [
     "pages/index/index",
     "pages/user/index",
-    "pages/search/index",
+    "pages/scan/index",
     "pages/choose/choose",
-    "pages/feedback/feedback"
+    "pages/feedback/feedback",
+    "pages/profile/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -28,7 +29,7 @@
       "selectedIconPath": "image/charge.png"
     },
     {
-      "pagePath": "pages/search/index",
+      "pagePath": "pages/scan/index",
       "text": "扫码",
       "iconPath": "image/scan.png",
       "selectedIconPath": "image/scan.png"
@@ -38,6 +39,12 @@
       "text": "用户须知",
       "iconPath": "image/user_guide.png",
       "selectedIconPath": "image/user_guide.png"
+    },
+    {
+      "pagePath": "pages/profile/index",
+      "text": "我的",
+      "iconPath": "image/user.png",
+      "selectedIconPath": "image/user.png"
     }]
   }
 }

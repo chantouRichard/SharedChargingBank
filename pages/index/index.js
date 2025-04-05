@@ -1009,7 +1009,7 @@ Page({
       data: {
         keyword: keyword,
         boundary: 'region(武汉,0)', // 限定在武汉市范围内搜索
-        key: 'TJ4BZ-M2GKQ-ORK5A-4BRHY-PRDSF-FSBP6', // 使用提供的密钥
+        key: '3QOBZ-YCZLQ-CQI5N-2PW6B-2ELR7-57F4U', // 使用提供的密钥
         page_size: 20, // 返回结果数量
         page_index: 1, // 页码
         output: 'json', // 返回格式
@@ -1085,12 +1085,20 @@ Page({
     // 保存到历史记录
     this.saveLocationToHistory(location);
     
-    // 显示操作菜单
+    // 强制关闭搜索面板
     this.setData({
-      selectedLocation: location,
-      showLocationAction: true,
-      showSearchPanel: false // 隐藏搜索面板
+      showSearchPanel: false,  // 先隐藏搜索面板
+      searchResults: []        // 清空搜索结果，防止再次显示
     });
+    
+    // 短暂延迟后显示操作菜单，确保搜索面板已完全关闭
+    setTimeout(() => {
+      // 显示操作菜单
+      this.setData({
+        selectedLocation: location,
+        showLocationAction: true
+      });
+    }, 100);
   },
 
   // 保存位置到历史记录
@@ -1137,7 +1145,8 @@ Page({
       currentLocationName: location.name,
       latitude: location.latitude,
       longitude: location.longitude,
-      showLocationAction: false
+      showLocationAction: false,
+      showSearchPanel: false  // 确保搜索面板被关闭
     });
     
     // 更新地图标记
@@ -1164,7 +1173,8 @@ Page({
         longitude: location.longitude
       },
       destinationName: location.name,
-      showLocationAction: false
+      showLocationAction: false,
+      showSearchPanel: false  // 确保搜索面板被关闭
     });
     
     // 更新地图标记
@@ -1184,7 +1194,8 @@ Page({
   // 取消位置选择
   cancelLocationSelection: function() {
     this.setData({
-      showLocationAction: false
+      showLocationAction: false,
+      showSearchPanel: false  // 确保搜索面板被关闭
     });
   },
 

@@ -1,0 +1,34 @@
+<view class="container">
+  <!-- 标题 -->
+  <text class="title">共享充电宝</text>
+
+  <!-- 介绍文本 -->
+  <text class="description">
+    扫码借用充电宝，随时随地，方便快捷
+  </text>
+
+  <!-- 扫码按钮（仅在未计时时显示） -->
+  <view wx:if="{{!isBorrowed}}" class="scan-box" bindtap="startScan" hover-class="button-hover">
+    <image src="/image/scan.png" class="scan-icon"></image>
+    <text class="scan-text">扫码借充电宝</text>
+  </view>
+
+  <!-- 计时状态（扫码后显示） -->
+  <view wx:if="{{isBorrowed}}" class="timer-box">
+    <text class="timer-text">充电宝已启用，请取走</text>
+    <text class="timer-text">已使用: {{elapsedTime}} 秒</text>
+    <button class="return-btn" bindtap="returnPowerBank">归还充电宝</button>
+    <button class="feedback-btn" bindtap="feedback">反馈问题</button>
+  </view>
+
+  <!-- 底部提示 -->
+  <text class="bottom-text">
+    请确保您的手机支持扫码功能
+  </text>
+  
+  <!-- 扫码结果（可选） -->
+  <view class="result-area" wx:if="{{showResult}}">
+    <view class="result-title">扫码结果</view>
+    <view class="result-content">{{scanResult}}</view>
+  </view>
+</view> 

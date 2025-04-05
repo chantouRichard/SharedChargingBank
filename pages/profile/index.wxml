@@ -1,0 +1,134 @@
+<view class="login-container">
+  
+  <!-- 登录卡片 -->
+  <view class="login-card">
+    <view class="login-avatar">
+      <image src="{{userInfo.avatarUrl}}" mode="aspectFit"></image>
+    </view>
+    <view class="login-info">
+      <view class="login-status">{{isLogin ? userInfo.nickName : '未登录'}}</view>
+      <view class="login-tip">{{isLogin ? memberInfo.level : '点击登录体验更多功能'}}</view>
+    </view>
+    <view class="login-button" bindtap="{{isLogin ? 'logout' : 'login'}}">{{isLogin ? '退出' : '立即登录'}}</view>
+  </view>
+  
+  <!-- 会员信息区域 - 已登录时显示 -->
+  <view class="panel" wx:if="{{isLogin}}">
+    <view class="panel-header">
+      <view class="yellow-bar"></view>
+      <text>会员权益</text>
+    </view>
+    <view class="member-content">
+      <view class="member-item">
+        <view class="member-label">积分</view>
+        <view class="member-value">{{memberInfo.points}}</view>
+      </view>
+      <view class="member-item">
+        <view class="member-label">余额</view>
+        <view class="member-value">¥{{userInfo.balance || '0.00'}}</view>
+      </view>
+      <view class="member-item">
+        <view class="member-label">折扣</view>
+        <view class="member-value">{{memberInfo.discount}}</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 我的账户面板 -->
+  <view class="panel">
+    <view class="panel-header">
+      <view class="yellow-bar"></view>
+      <text>我的账户</text>
+    </view>
+    <view class="panel-content">
+      <view class="option-item" bindtap="onTapUserOption" data-index="0">
+        <image class="option-icon" src="{{userOptions[0].icon}}" mode="aspectFit"></image>
+        <view class="option-text">我的订单</view>
+      </view>
+      <view class="option-item" bindtap="onTapUserOption" data-index="1">
+        <image class="option-icon" src="{{userOptions[1].icon}}" mode="aspectFit"></image>
+        <view class="option-text">我的钱包</view>
+      </view>
+      <view class="option-item" bindtap="onTapUserOption" data-index="2">
+        <image class="option-icon" src="{{userOptions[2].icon}}" mode="aspectFit"></image>
+        <view class="badge" wx:if="{{userOptions[2].badge > 0}}">{{userOptions[2].badge}}</view>
+        <view class="option-text">优惠券</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 充电宝服务面板 -->
+  <view class="panel">
+    <view class="panel-header">
+      <view class="yellow-bar"></view>
+      <text>充电宝服务</text>
+    </view>
+    <view class="panel-content">
+      <view class="option-item" bindtap="onTapChargeOption" data-index="0">
+        <image class="option-icon" src="{{chargeOptions[0].icon}}" mode="aspectFit"></image>
+        <view class="option-text">借还记录</view>
+      </view>
+      <view class="option-item" bindtap="onTapChargeOption" data-index="1">
+        <image class="option-icon" src="{{chargeOptions[1].icon}}" mode="aspectFit"></image>
+        <view class="option-text">常用地点</view>
+      </view>
+      <view class="option-item" bindtap="onTapChargeOption" data-index="2">
+        <image class="option-icon" src="{{chargeOptions[2].icon}}" mode="aspectFit"></image>
+        <view class="option-text">会员卡</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 充电宝使用记录面板 -->
+  <view class="panel">
+    <view class="panel-header">
+      <view class="yellow-bar"></view>
+      <text>充电宝使用记录</text>
+    </view>
+    <view class="panel-content empty-content" wx:if="{{!isLogin}}">
+      <image class="empty-icon" src="/image/empty.png" mode="aspectFit"></image>
+      <view class="empty-text">请登录查看历史记录</view>
+    </view>
+    <view class="order-list" wx:else>
+      <view class="order-item" wx:for="{{orderHistory}}" wx:key="id">
+        <view class="order-time">{{item.time}}</view>
+        <view class="order-info">
+          <view class="order-title">{{item.title}}</view>
+          <view class="order-location">位置：{{item.location}}</view>
+          <view class="order-duration">使用时长：{{item.duration}}</view>
+          <view class="order-amount">消费金额：¥{{item.amount}}</view>
+          <view class="order-status {{item.status}}">{{item.status === 'completed' ? '已完成' : '进行中'}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 设置与服务面板 -->
+  <view class="panel">
+    <view class="panel-header">
+      <view class="yellow-bar"></view>
+      <text>设置与服务</text>
+    </view>
+    <view class="panel-content">
+      <view class="option-item" bindtap="onTapSettingOption" data-index="0">
+        <image class="option-icon" src="{{settingOptions[0].icon}}" mode="aspectFit"></image>
+        <view class="option-text">消费记录</view>
+      </view>
+      <view class="option-item" bindtap="onTapSettingOption" data-index="1">
+        <image class="option-icon" src="{{settingOptions[1].icon}}" mode="aspectFit"></image>
+        <view class="option-text">问题反馈</view>
+      </view>
+      <view class="option-item" bindtap="onTapSettingOption" data-index="2">
+        <image class="option-icon" src="{{settingOptions[2].icon}}" mode="aspectFit"></image>
+        <view class="option-text">使用帮助</view>
+      </view>
+      <view class="option-item" bindtap="onTapSettingOption" data-index="3">
+        <image class="option-icon" src="{{settingOptions[3].icon}}" mode="aspectFit"></image>
+        <view class="option-text">设置</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 版本信息 -->
+  <view class="app-version">共享充电宝 v1.0.0</view>
+</view> 
