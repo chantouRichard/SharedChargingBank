@@ -1,3 +1,0 @@
-<map id="myMap" latitude="{{latitude}}" longitude="{{longitude}}" bindmarkertap="markertap" bindlabeltap="labeltap" markers="{{markers}}">
-
-</map>

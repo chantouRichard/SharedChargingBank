@@ -1,0 +1,34 @@
+<view class="container">
+  <text class="bigTitle">充电宝归还成功！</text>
+  <text class="bigTitle" style="top: 400rpx;">用时：{{elapsedTime}} s</text>
+  
+  <text class="title">请支付费用</text>
+  <text class="description">根据充电宝使用情况，您需要支付相应的充电费用</text>
+
+  <view class="option-box">
+    <view class="option-btn pay" bindtap="showPayPopup">
+      <text class="option-text">微信支付</text>
+    </view>
+  </view>
+
+  <!-- 新增蒙层 -->
+  <view class="mask" wx:if="{{showPopup}}" bindtap="hidePopup"></view>
+  
+  <!-- 优化后的弹窗 -->
+  <view class="popup-container" wx:if="{{showPopup}}">
+    <view class="popup" animation="{{popupAnimation}}">
+      <text class="popup-title">选择支付方式</text>
+      <view class="pay-options">
+        <view class="pay-item" data-method="微信支付" bindtap="simulatePayment">
+          <text>微信支付</text>
+        </view>
+        <view class="pay-item" data-method="支付宝支付" bindtap="simulatePayment">
+          <text>支付宝支付</text>
+        </view>
+        <view class="pay-item" data-method="云闪付" bindtap="simulatePayment">
+          <text>云闪付</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

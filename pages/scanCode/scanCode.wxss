@@ -1,0 +1,116 @@
+/* 页面布局 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 40rpx;
+  background-color: #fef9e7;
+}
+
+/* 标题 */
+.title {
+  font-size: 42rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 介绍文本 */
+.description {
+  font-size: 30rpx;
+  color: #666;
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+/* 扫码按钮 */
+.scan-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300rpx;
+  height: 300rpx;
+  background-color: #ffcc00;
+  border-radius: 200rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.scan-box:active {
+  transform: scale(0.96);
+}
+
+/* 扫码图标 */
+.scan-icon {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 10rpx;
+}
+
+/* 扫码文本 */
+.scan-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+}
+
+/* 计时框 */
+.timer-box {
+  margin-top: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 计时文本 */
+.timer-text {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #d35400;
+  margin-bottom: 20rpx;
+}
+
+/* 归还按钮 */
+.return-btn {
+  width: 300rpx;
+  height: 80rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(to right, #ff9900, #ff6600);
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.feedback-btn {
+  width: 300rpx;
+  height: 80rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(148, 241, 120);
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+
+  margin-top: 20rpx;
+}
+
+.return-btn:active {
+  transform: scale(0.96);
+}
+
+.feedback-btn:active {
+  transform: scale(0.96);
+}
+
+/* 底部提示 */
+.bottom-text {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 40rpx;
+}

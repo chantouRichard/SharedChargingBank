@@ -1,3 +1,42 @@
-<map id="myMap" latitude="{{latitude}}" longitude="{{longitude}}" bindmarkertap="markertap" bindlabeltap="labeltap" markers="{{markers}}">
+<!-- pages/agreement/agreement.wxml -->
+<view class="agreement-page">
+  <!-- 顶部标题 -->
+  <view class="header">
+    <text class="title">用户使用须知</text>
+  </view>
 
-</map>
+  <!-- 内容区域（可滚动） -->
+  <scroll-view class="content" scroll-y>
+    <view class="section">
+      <text class="section-title">1. 使用规则</text>
+      <text class="section-text">
+        • 请勿将充电宝浸水、摔打或拆解\n
+        • 使用完毕后请及时归还至指定位置\n
+        • 若设备损坏，需按实际损失赔偿
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">2. 计费标准</text>
+      <text class="section-text">
+        • 前30分钟免费，超出后按1元/30分钟计费\n
+        • 24小时未归还，按99元/天封顶计费\n
+        • 最终费用以归还时结算为准
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="section-title">3. 注意事项</text>
+      <text class="section-text">
+        • 请确认充电宝已正确插入归还仓\n
+        • 若归还失败，请及时联系客服\n
+        • 恶意占用设备将影响信用记录
+      </text>
+    </view>
+  </scroll-view>
+
+  <!-- 底部确认按钮 -->
+  <view class="footer">
+    <button class="confirm-btn" bindtap="handleAgree">我已阅读并同意</button>
+  </view>
+</view>
