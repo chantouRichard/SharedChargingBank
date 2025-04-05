@@ -1,0 +1,230 @@
+/* 背景渐变 */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+.bigTitle {
+  font-size: 64rpx;
+  font-weight: bold;
+  position: absolute;
+  top: 300rpx;
+}
+/* 标题 */
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+/* 介绍文本 */
+.description {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+/* 选项框 */
+.option-box {
+  display: flex;
+  gap: 40rpx;
+}
+
+/* 选项按钮 */
+.option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 240rpx;
+  height: 140rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* 按钮颜色 */
+.pay {
+  background-color: rgb(105, 201, 118);
+}
+
+.feedback {
+  background-color: rgb(243, 88, 88);
+}
+
+/* 按钮图标 */
+.option-icon {
+  width: 100rpx;
+  height: 100rpx;
+  margin-bottom: 15rpx;
+}
+
+/* 选项文字 */
+.option-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: white;
+}
+
+/* 按下效果 */
+.option-btn:active {
+  transform: scale(0.95);
+}
+
+/* 遮罩层 */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 弹窗内容 */
+.popup-content {
+  background: white;
+  width: 80%;
+  padding: 40rpx;
+  border-radius: 20rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 弹窗标题 */
+.popup-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 弹窗信息 */
+.popup-message {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+/* 弹窗按钮 */
+.popup-btn {
+  background: #ffcc00;
+  color: white;
+  font-size: 32rpx;
+  padding: 15rpx 0;
+  width: 100%;
+  border-radius: 10rpx;
+}
+/* 弹出层 */
+.popup {
+  justify-content: center;
+  align-items: center;
+  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  height: 400rpx;
+  width: 100%;
+  background: #ffcc00;
+  border-radius: 20rpx 20rpx 0 0;
+  /* padding: 40rpx 20rpx; */
+  box-shadow: 0 -10rpx 20rpx rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  text-align: center;
+
+  padding-top: 50rpx;
+}
+
+/* 标题 */
+.popup-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 50rpx;
+}
+
+/* 支付方式选项 */
+.pay-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* 每个支付选项 */
+.pay-item {
+  width: 600rpx;
+  height: 60rpx;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10rpx;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  padding: 10rpx;
+  border-radius: 15rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 支付图标 */
+.pay-icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 20rpx;
+}
+/* 新增蒙层样式 */
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mask.show {
+  opacity: 1;
+}
+
+/* 优化弹窗容器 */
+.popup-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
+
+/* 优化弹窗样式 */
+.popup {
+  width: 100%;
+  max-width: 750rpx;
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  /* padding: 40rpx; */
+  box-shadow: 0 -10rpx 30rpx rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  background-color: rgb(255, 206, 71);
+}
+
+.popup.show {
+  transform: translateY(0);
+} 

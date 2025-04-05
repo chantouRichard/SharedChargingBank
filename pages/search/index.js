@@ -25,7 +25,12 @@ Page({
           icon: 'success'
         });
         
-        // 这里可以处理扫码结果，例如跳转到相应页面或调用API
+        // 扫码成功后跳转到支付页面
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/choose/choose'
+          });
+        }, 1500);
       },
       fail: (err) => {
         console.error('扫码失败:', err);

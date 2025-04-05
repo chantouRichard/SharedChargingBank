@@ -1,0 +1,17 @@
+<view class="container">
+  <!-- 标题 -->
+  <text class="title">问题反馈</text>
+  
+  <!-- 说明文字 -->
+  <text class="description">
+    如果在使用共享充电宝时遇到问题，请在下方描述，我们将尽快处理。
+  </text>
+
+  <!-- 反馈输入框 -->
+  <view class="input-box">
+    <textarea placeholder="请输入您的问题..." bindinput="onInput" maxlength="200" />
+  </view>
+
+  <!-- 提交按钮 -->
+  <button class="submit-btn" bindtap="submitFeedback">提交反馈</button>
+</view> 
